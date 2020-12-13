@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Geolocation from "./containers/geolocation/geolocation";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <Route path="/" component={App} />
+    <Route path="/geolocation" component={Geolocation} />
+  </Router>,
   document.getElementById('root')
 );
 
