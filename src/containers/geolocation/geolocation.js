@@ -11,7 +11,8 @@ class Geolocation extends React.Component {
             currLat: null,
             currLong: null,
             currentCount: 3,
-            showContinueButton: false
+            showContinueButton: false,
+            response: []
         };
         this.getLocation = this.getLocation.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
@@ -79,7 +80,8 @@ class Geolocation extends React.Component {
         // console.log(data);
         axios.post(`https://pointdedo.herokuapp.com/pointsdedo`, obj)
         .then(res => {
-            console.log(res);
+            this.setState({response: res.data});
+            console.log(res.data);
         }).catch(err => {
             console.log(err);
         })
@@ -104,7 +106,14 @@ class Geolocation extends React.Component {
                         </div>
                     )})}
                 </ul>
-                {this.state.showContinueButton? <button onClick={this.continueButtonHandler}>Continue?</button> : ""};
+                {this.state.showContinueButton? <button onClick={this.continueButtonHandler}>Continue?</button> : ""}
+                {this.state.response.map((_, index) => {
+                        return (
+                        <div>
+                            <p>Grid Coordinate #{index}: {this.state.response[index]}</p>
+                            <br/>
+                        </div>
+                    )})}
             </div>
         )
     }
