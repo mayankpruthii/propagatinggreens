@@ -26,7 +26,8 @@ class Geolocation extends React.Component {
                 this.getCoordinates, 
                 this.handleLocationError, 
                 {enableHighAccuracy: true,
-                maximumAge: 0});
+                timeout: 3000,
+                maximumAge: 50});
                 if(this.state.currentCount > 0) {
                     // console.log(this.state.showContinueButton);
                     this.setState({currentCount: this.state.currentCount - 1});
@@ -41,6 +42,9 @@ class Geolocation extends React.Component {
     }
 
     getCoordinates(position) {
+        if(position.coords.latitude == this.state.currLat && position.coords.longitude == this.state.currLong) {
+            return;
+        }
         this.setState(prevState => ({
             lat: [...prevState.lat, position.coords.latitude],
             long: [...prevState.long, position.coords.longitude],
