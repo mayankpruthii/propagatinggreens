@@ -10,7 +10,7 @@ class Geolocation extends React.Component {
             long: [],
             currLat: null,
             currLong: null,
-            currentCount: 3,
+            currentCount: 4,
             showContinueButton: false,
             response: [],
             noGridFound: true
@@ -88,8 +88,8 @@ class Geolocation extends React.Component {
         // console.log(data);
         axios.post(`https://pointdedo.herokuapp.com/pointsdedo`, obj)
         .then(res => {
-            // res.data = [[1,3],[5, 6]];
-            this.setState({response: res.data});
+            const data = res.data;  
+            this.setState({response: data.cood});
             if(res.data.length === 0) {
                 this.setState({noGridFound: false});
             }
@@ -118,11 +118,11 @@ class Geolocation extends React.Component {
                     )})}
                 </ul>
 
-                {this.state.showContinueButton? <button onClick={this.continueButtonHandler}>Continue?</button> : ""}
+                {this.state.showContinueButton? <button onClick={this.continueButtonHandler}>Continue?</button> : <p>Need {this.state.currentCount} more locations</p>}
                 {this.state.response.map((_, index) => {
                     return (
                     <div>
-                        <p><i>Grid Coordinate #{index}</i>: {this.state.response[index][0]} , {this.state.response[index][1]}</p>
+                        <p><i>Grid Coordinate #{index}</i> : {this.state.response[index][0]} , {this.state.response[index][1]}</p>
                         <br/>
                     </div>
                     )}
