@@ -12,7 +12,8 @@ class Geolocation extends React.Component {
             currLong: null,
             currentCount: 3,
             showContinueButton: false,
-            response: []
+            response: [],
+            noGridFound: true
         };
         this.getLocation = this.getLocation.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
@@ -76,11 +77,16 @@ class Geolocation extends React.Component {
         for(let i = 0 ; i < this.state.lat.length ; i ++) {
             obj.cood = obj.cood.concat([[this.state.lat[i], this.state.long[i]]]);
         }
+        
         // var data = JSON.stringify(obj);   
         // console.log(data);
         axios.post(`https://pointdedo.herokuapp.com/pointsdedo`, obj)
         .then(res => {
+            // res.data = [[1,3],[5, 6]];
             this.setState({response: res.data});
+            if(res.data.length === 0) {
+                this.setState({noGridFound: false});
+            }
             console.log(res.data);
         }).catch(err => {
             console.log(err);
@@ -100,20 +106,22 @@ class Geolocation extends React.Component {
                     {this.state.lat.map((_, index) => {
                         return (
                         <div>
-                            <p>Latitude: {this.state.lat[index]}</p> 
-                            <p>Longitude: {this.state.long[index]}</p>
+                            <p>Latitude: {this.state.lat[index]} Longitude: {this.state.long[index]}</p>
                             <br/>
                         </div>
                     )})}
                 </ul>
+
                 {this.state.showContinueButton? <button onClick={this.continueButtonHandler}>Continue?</button> : ""}
                 {this.state.response.map((_, index) => {
-                        return (
-                        <div>
-                            <p>Grid Coordinate #{index}: {this.state.response[index]}</p>
-                            <br/>
-                        </div>
-                    )})}
+                    return (
+                    <div>
+                        <p><i>Grid Coordinate #{index}</i>: {this.state.response[index][0]} , {this.state.response[index][1]}</p>
+                        <br/>
+                    </div>
+                    )}
+                )}
+                {!this.state.noGridFound?<p>No Grid Possible for the given coordinates. Refresh the page and try again with different coordinates</p>: ""}
             </div>
         )
     }
