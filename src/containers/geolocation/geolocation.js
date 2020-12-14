@@ -26,11 +26,12 @@ class Geolocation extends React.Component {
                 this.getCoordinates, 
                 this.handleLocationError, 
                 {enableHighAccuracy: true,
-                timeout: 3000,
-                maximumAge: 50});
+                timeout: 1000,
+                maximumAge: 50}
+            );
                 if(this.state.currentCount > 0) {
                     // console.log(this.state.showContinueButton);
-                    this.setState({currentCount: this.state.currentCount - 1});
+                    return;
                 }
                 else{
                     // console.log(this.state.showContinueButton);
@@ -49,7 +50,8 @@ class Geolocation extends React.Component {
             lat: [...prevState.lat, position.coords.latitude],
             long: [...prevState.long, position.coords.longitude],
             currLat: position.coords.latitude,
-            currLong: position.coords.longitude
+            currLong: position.coords.longitude,
+            currentCount: this.state.currentCount - 1
         }));
         // console.log(this.state.lat);    
     }
