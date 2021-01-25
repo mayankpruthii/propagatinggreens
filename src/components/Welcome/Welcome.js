@@ -12,6 +12,9 @@ const Welcome = (props) => {
                 <p>
                     End to End seed planting solution which is efficient and scalable for 1000’s of metres of land . We aim to solve the problem of farmers by giving them a simple and intuitive app , which takes in the coordinates of the entire agricultural field and provides a different pattern for automatic seed plantation.
                 </p>
+                <p>
+                    Use password as "propgreens" for now.
+                </p>
             </div>
             <button className="login-button" onClick={props.clickHandler}>Login to mark Geo Locations</button>
         </div>
